@@ -1,0 +1,5 @@
+# Cake - http://cakebuild.net
+tools/*
+!tools/packages.config
+
+SQLCodeGuard
