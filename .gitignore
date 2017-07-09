@@ -2,4 +2,4 @@
 tools/*
 !tools/packages.config
 
-SQLCodeGuard
+bin/*
