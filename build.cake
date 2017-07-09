@@ -8,8 +8,14 @@ Task("Clean")
     CleanDirectory(buildDirectory);
   });
 
+Task("Version")
+  .Does(() => {
+    GitVersion(new GitVersionSettings { OutputType = GitVersionOutput.BuildServer});
+  });
+
 Task("Build")
   .IsDependentOn("Clean")
+  .IsDependentOn("Version")
   .Does(() => {
     DownloadFile("http://download.red-gate.com/SQLCodeGuardCmdLine.zip", "./bin/SqlCodeGuard.zip");
     Unzip("./bin/SQLCodeGuard.zip", "./bin/SQLCodeGuard");
