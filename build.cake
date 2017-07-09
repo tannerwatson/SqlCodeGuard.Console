@@ -1,5 +1,6 @@
 #tool "nuget:?package=GitVersion.CommandLine"
-var target = Argument("target", "Default");
+var target = Argument("Target", "Default");
+var nuGetApiKey = Argument("NuGetApiKey", "SET_API_KEY");
 var buildDirectory = Directory("./bin");
 
 Task("Clean")
@@ -10,10 +11,14 @@ Task("Clean")
 Task("Build")
   .IsDependentOn("Clean")
   .Does(() => {
-    var version = GitVersion();
-    
     DownloadFile("http://download.red-gate.com/SQLCodeGuardCmdLine.zip", "./bin/SqlCodeGuard.zip");
     Unzip("./bin/SQLCodeGuard.zip", "./bin/SQLCodeGuard");
+  });
+
+Task("Package")
+  .IsDependentOn("Build")
+  .Does(() => {
+    var version = GitVersion();
 
     var nuGetPackSettings = new NuGetPackSettings {
       Id = "SqlCodeGuard.Console",
@@ -39,6 +44,19 @@ Task("Build")
       };
   
     NuGetPack(nuGetPackSettings);
+  });
+
+Task("Publish")
+  .IsDependentOn("Package")
+  .Does(() => {
+    var version = GitVersion();
+    var package = "./bin/SqlCodeGuard.Console." + version.NuGetVersionV2 + ".nupkg";
+
+    NuGetPush(package, new NuGetPushSettings {
+     Source = "https://api.nuget.org/v2/package/",
+     ApiKey = nuGetApiKey
+    });
+
   });
 
 Task("Default")
