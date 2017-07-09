@@ -1,0 +1,6 @@
+mode: ContinuousDeployment
+branches:
+  releases?[/-]:
+    tag: rc
+ignore:
+  sha: []
