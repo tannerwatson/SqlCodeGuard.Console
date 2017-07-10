@@ -56,7 +56,7 @@ Task("Publish")
   .IsDependentOn("Package")
   .Does(() => {
     var version = GitVersion();
-    var package = "./bin/SqlCodeGuard.Console." + version.NuGetVersionV2 + ".nupkg";
+    var package = File("./bin/SqlCodeGuard.Console." + version.NuGetVersionV2 + ".nupkg");
 
     NuGetPush(package, new NuGetPushSettings {
      Source = "https://api.nuget.org/v2/package/",
