@@ -11,7 +11,7 @@ Task("Clean")
 Task("Build")
   .IsDependentOn("Clean")
   .Does(() => {
-    DownloadFile("http://download.red-gate.com/SQLCodeGuardCmdLine.zip", "./bin/SqlCodeGuard.zip");
+    DownloadFile("https://files.red-gate.com/messages/vtBLIs2P07QqpKyB4DPyih/attachments/S93YraiTbbZyRoeD79yEZ4/download/SCG4.p3.zip", "./bin/SqlCodeGuard.zip");
     Unzip("./bin/SQLCodeGuard.zip", "./bin/SQLCodeGuard");
   });
 
